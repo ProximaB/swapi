@@ -1,0 +1,80 @@
+@model StarWarsMovies.Mvc.ViewModels.MovieComplexViewModel  
+@{
+    ViewData["Title"] = "Movie";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-horizontal">
+
+    <hr/>
+    <div class="form-group">
+
+        <div class="row">
+            <div class="col-4">
+                <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Overview</a>
+                    <a class="list-group-item list-group-item-action" id="list-openingcrawl-list" data-toggle="list" href="#list-opening-crawl" role="tab" aria-controls="opening-crawl">@Html.DisplayNameFor(model => Model.OpeningCrawl)</a>
+                    <a class="list-group-item list-group-item-action" id="list-ratings-list" data-toggle="list" href="#list-ratings" role="tab" aria-controls="ratings">@Html.DisplayNameFor(model => model.Ratings)</a>
+                    <a class="list-group-item list-group-item-action" id="list-rate-list" data-toggle="list" href="#list-rate" role="tab" aria-controls="rate">Rate movie</a>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+
+                        @foreach (var property in ViewData.ModelMetadata.Properties.Where(metadata => !metadata.IsComplexType && metadata.Name != nameof(Model.OpeningCrawl)))
+                        {
+                            <div class="row">
+                                <div class="col">@(!string.IsNullOrEmpty(property.DisplayName) ? property.DisplayName : property.PropertyName)</div>
+                                <div class="col">@Html.Editor(property.PropertyName)</div>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="tab-pane fade" id="list-opening-crawl" role="tabpanel" aria-labelledby="list-openingcrawl-list">
+                        @Html.DisplayFor(model => model.OpeningCrawl)
+                    </div>
+                    <div class="tab-pane fade" id="list-ratings" role="tabpanel" aria-labelledby="list-ratings-list">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">UserId</th>
+                                <th scope="col">Rating</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @{ var i = 1; }
+                            @foreach (var rating in Model.Ratings)
+                            {
+                                <div class="row">
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@rating.UserId.ToString()</td>
+                                        <td>@rating.Rating.ToString()</td>
+                                    </tr>
+                                </div>
+                                i++;
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="list-rate" role="tabpanel" aria-labelledby="list-rate-list">
+                        <h3>Rate movie</h3>
+                        <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group me-2" role="group" aria-label="First group">
+                                @for (i = 1; i < 10; i++)
+                                {
+                                    <a href="@Url.Action("RateMovie", "Home", new {movieId = Model.MovieId, rating = i}, null)" type="button" class="btn btn-outline-secondary">@i</a>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,28 @@
+﻿@model StarWarsMovies.Mvc.ViewModels.MoviesSlimViewModel  
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+
+    <div class="form-horizontal">
+
+        <hr/>
+        <div class="form-group">
+
+            <ul class="list-group">
+                @foreach (var item in Model.Movies)
+                {
+                    <a href="@Url.Action("Movie", "Home", new {id = item.MovieId}, null)">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            @Html.DisplayFor(modelItem => item.Title)
+                            <span class="badge badge-primary badge-pill">@Html.DisplayFor(modelItem => item.Rating)/10</span>
+                        </li>
+                    </a>
+                }
+            </ul>
+
+        </div>
+    </div>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
