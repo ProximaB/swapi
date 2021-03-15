@@ -64,7 +64,7 @@
                         <h3>Rate movie</h3>
                         <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
                             <div class="btn-group me-2" role="group" aria-label="First group">
-                                @for (i = 1; i < 10; i++)
+                                @for (i = 1; i <= 10; i++)
                                 {
                                     <a href="@Url.Action("RateMovie", "Home", new {movieId = Model.MovieId, rating = i}, null)" type="button" class="btn btn-outline-secondary">@i</a>
                                 }
